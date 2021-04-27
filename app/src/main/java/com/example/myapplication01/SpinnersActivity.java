@@ -1,14 +1,17 @@
 package com.example.myapplication01;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.location.GnssAntennaInfo;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-public class SpinnersActivity extends AppCompatActivity {
+public class SpinnersActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,11 +38,31 @@ public class SpinnersActivity extends AppCompatActivity {
 
                 String s = String.format("전화:%s(%d)   주소:%s(%d)", text1, index1, text2, index2);
                 Toast.makeText(SpinnersActivity.this, s, Toast.LENGTH_SHORT).show();
+
             }
+
         };
         Button button = (Button) findViewById(R.id.btnSave);
         button.setOnClickListener(listener1);
+
+
+        AdapterView.OnItemSelectedListener listener = new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(SpinnersActivity.this, "선택된 아이템: " + parent.getItemAtPosition(position), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        };
+        spinner.setOnItemSelectedListener(listener);
+
+
+
     }
+
 
 }
 
