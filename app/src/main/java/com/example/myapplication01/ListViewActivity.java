@@ -30,7 +30,7 @@ public class ListViewActivity extends AppCompatActivity {
         ListView listView = (ListView)findViewById(R.id.listView);
         listView.setAdapter(arrayAdapter);
 
-        Button b = (Button) findViewById(R.id.btnAdd);
+        Button b = (Button) findViewById(R.id.ConstraintLayout);
         b.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View arg0) {

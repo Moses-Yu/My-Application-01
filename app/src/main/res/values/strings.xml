@@ -31,6 +31,7 @@
     <string name="cancel">취소</string>
 
     <string name="action_listView">ListView</string>
+    <string name="action_recycler1">RecyclerView1</string>
 
 
 </resources>
