@@ -30,5 +30,7 @@
     <string name="selectAnimal">동물 선택</string>
     <string name="cancel">취소</string>
 
+    <string name="action_listView">ListView</string>
+
 
 </resources>

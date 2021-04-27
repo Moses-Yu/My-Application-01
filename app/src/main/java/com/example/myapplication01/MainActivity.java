@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -47,5 +48,10 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return onOptionsItemSelected(item);
+    }
+
+    public void btnListView_clicked(View view){
+        Intent intent = new Intent(this, ListViewActivity.class);
+        startActivity(intent);
     }
 }

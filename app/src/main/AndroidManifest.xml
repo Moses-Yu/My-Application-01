@@ -9,18 +9,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication01">
-
+        <activity android:name=".RecyclerView1Activity"></activity>
+        <activity
+            android:name=".ListViewActivity"
+            android:label="@string/action_listView" />
         <activity
             android:name=".AlertsActivity"
-            android:label="@string/action_alerts"></activity>
-
+            android:label="@string/action_alerts" />
         <activity
             android:name=".SpinnersActivity"
             android:label="@string/action_spinners" />
-
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
