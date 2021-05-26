@@ -1,48 +1,65 @@
 package com.example.myapplication01;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class RecyclerView2Adapter extends RecyclerView.Adapter<RecyclerView2Adapter.ViewHolder> {
 
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-
+    class ViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
         TextView textView1, textView2;
+        CheckBox checkBox;
 
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            textView1 = itemView.findViewById(R.id.textView1);
-            textView2 = itemView.findViewById(R.id.textView2);
-            itemView.setOnClickListener(this);
+        public ViewHolder(View view) {
+            super(view);
+            textView1 = view.findViewById(R.id.textView1);
+            textView2 = view.findViewById(R.id.textView2);
+            view.setOnClickListener(this);
+            checkBox = view.findViewById(R.id.checkBox);
+            checkBox.setOnCheckedChangeListener(this);
         }
 
         public void setData(int index) {
             Memo2 memo = arrayList.get(index);
             textView1.setText(memo.getTitle());
             textView2.setText(memo.getDateFormatted());
+            checkBox.setChecked(memo.isChecked());
         }
 
         @Override
-        public void onClick(View v) {
+        public void onClick(View view) {
             int index = super.getAdapterPosition();
             Memo2 memo = arrayList.get(index);
-            String s = String.format(Locale.KOREA,"index: %d, title: %s", index, memo.getTitle());
-            Toast.makeText(itemView.getContext(), s, Toast.LENGTH_SHORT).show();
+            String s = String.format("index: %d,  title: %s", index, memo.getTitle());
+            Toast.makeText(view.getContext(), s, Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            int index = super.getAdapterPosition();
+            Memo2 memo = arrayList.get(index);
+            memo.setChecked(isChecked);
+            if (isChecked) ++checkCount; else --checkCount;
+            if (checkCount == 0 || checkCount == 1) {
+                Activity activity = (Activity)textView1.getContext();
+                activity.invalidateOptionsMenu();
+            }
         }
     }
 
     LayoutInflater layoutInflater;
     ArrayList<Memo2> arrayList;
+    int checkCount = 0;
 
     public RecyclerView2Adapter(Context context, ArrayList<Memo2> arrayList) {
         this.layoutInflater = LayoutInflater.from(context);
@@ -54,17 +71,15 @@ public class RecyclerView2Adapter extends RecyclerView.Adapter<RecyclerView2Adap
         return arrayList.size();
     }
 
-    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View view = layoutInflater.inflate(R.layout.memo2, viewGroup, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int index) {
+    public void onBindViewHolder(final ViewHolder viewHolder, final int index) {
         viewHolder.setData(index);
     }
-
-
 }
+

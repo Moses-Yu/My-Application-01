@@ -32,6 +32,7 @@
 
     <string name="action_listView">ListView</string>
     <string name="action_recycler1">RecyclerView1</string>
+    <string name="action_remove">삭제</string>
 
 
 </resources>
