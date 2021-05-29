@@ -70,6 +70,12 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent, 0);
     }
 
+    public void btnRecyclerView3_clicked(View view){
+        Intent intent = new Intent(this,RecyclerView3Activity.class);
+        startActivityForResult(intent, 0);
+    }
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
