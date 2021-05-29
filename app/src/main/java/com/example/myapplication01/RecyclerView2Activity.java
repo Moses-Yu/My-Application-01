@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.ListIterator;
 
 public class RecyclerView2Activity extends AppCompatActivity {
@@ -77,7 +78,7 @@ public class RecyclerView2Activity extends AppCompatActivity {
         builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int index) {
-                ListIterator<Memo2> iterator = arrayList.listIterator();
+                Iterator<Memo2> iterator = arrayList.iterator();
                 while (iterator.hasNext())
                     if (iterator.next().isChecked())
                         iterator.remove();

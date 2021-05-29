@@ -5,9 +5,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -63,4 +65,22 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, RecyclerView2Activity.class);
         startActivity(intent);
     }
+    public void btnMemo3_clicked(View view){
+        Intent intent = new Intent(this, Memo3Activity.class);
+        startActivityForResult(intent, 0);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        if (resultCode == RESULT_OK) {
+            Memo3 memo = (Memo3)intent.getSerializableExtra("MEMO");
+            String s = String.format(
+                    "<h1>%s</h1><p>%s</p><p style='color: blue'>%s</p>",
+                    memo.getTitle(), memo.getDateFormatted(), memo.getContent());
+            TextView textView = findViewById(R.id.textView);
+            textView.setText(Html.fromHtml(s));
+        }
+    }
+
 }
