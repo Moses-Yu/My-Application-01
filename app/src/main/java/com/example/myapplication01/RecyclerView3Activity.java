@@ -23,23 +23,35 @@ public class RecyclerView3Activity extends AppCompatActivity {
     public static final int REQUEST_CREATE = 0;
     public static final int REQUEST_EDIT = 1;
 
-    int memoIndex;
     RecyclerView3Adapter recyclerView3Adapter;
-    ArrayList<Memo3> arrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recycler_view3);
 
-        arrayList = new ArrayList<Memo3>();
-
-        recyclerView3Adapter = new RecyclerView3Adapter(this, arrayList);
+        recyclerView3Adapter = new RecyclerView3Adapter(this);
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(recyclerView3Adapter);
+
+        recyclerView3Adapter.setOnMemoClickListener(new OnMemoClickListener() {
+            @Override
+            public void onMemoClicked(Memo3 memo) {
+                Intent intent = new Intent(RecyclerView3Activity.this, Memo3Activity.class);
+                intent.putExtra("MEMO", memo);
+                startActivityForResult(intent, REQUEST_EDIT);
+            }
+        });
+
+        recyclerView3Adapter.setOnCheckCountChangeListener(new OnCheckCountChangeListener() {
+            @Override
+            public void onCheckCountChanged(int count) {
+                if (count == 0 || count == 1) invalidateOptionsMenu();
+            }
+        });
     }
 
     @Override
@@ -68,11 +80,8 @@ public class RecyclerView3Activity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, intent);
         if (resultCode == RESULT_OK) {
             Memo3 memo = (Memo3)intent.getSerializableExtra("MEMO");
-            if (requestCode == REQUEST_CREATE)
-                arrayList.add(memo);
-            else if (requestCode == REQUEST_EDIT)
-                arrayList.set(memoIndex, memo);
-            recyclerView3Adapter.notifyDataSetChanged();
+            if (requestCode == REQUEST_CREATE) recyclerView3Adapter.add(memo);
+            else if (requestCode == REQUEST_EDIT) recyclerView3Adapter.update(memo);
         }
     }
 
@@ -83,13 +92,7 @@ public class RecyclerView3Activity extends AppCompatActivity {
         builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int index) {
-                ListIterator<Memo3> iterator = arrayList.listIterator();
-                while (iterator.hasNext())
-                    if (iterator.next().isChecked())
-                        iterator.remove();
-                recyclerView3Adapter.notifyDataSetChanged();
-                recyclerView3Adapter.checkCount = 0;
-                invalidateOptionsMenu();
+                recyclerView3Adapter.removeCheckedMemo();
             }
         });
         builder.setNegativeButton(R.string.no, null);
